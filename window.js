@@ -2,8 +2,16 @@ class Window{
     id
     title
     element
+    flag = false
     
     static create(id){
+        if(document.getElementById(id)){
+            let err = Window.create("Error" + String(Math.floor(Math.random() * Math.floor(1000000))))
+            err.setTitle("")
+            err.setContents("<h3>エラー</h3><p>idが重複しています</p>")
+            return false
+        }
+
         let w = new Window
         let win = document.createElement("div")
         win.id = id
@@ -15,20 +23,28 @@ class Window{
         w.element = document.getElementById(id)
 
         // ウィンドウの移動
-        let flag = false
         let winY, winX
         w.element.getElementsByClassName("winTitle")[0].onmousedown = function(e){
-            flag = true
+            w.flag = true
             winY = e.offsetY
             winX = e.offsetX
         }
-        document.body.onmouseup = function(e){
-            flag = false
-        }
-        document.body.onmousemove = function(e){
-            if(flag){
-                w.element.style.top = `${e.pageY - winY}px`
-                w.element.style.left = `${e.pageX - winX}px`
+
+        w.element.onmousedown = function(e){
+            if(!Window.zIndex){
+                Window.zIndex = 1
+            }
+            w.element.style.zIndex = Window.zIndex++
+
+            // ウィンドウの移動
+            document.body.onmouseup = function(e){
+                w.flag = false
+            }
+            document.body.onmousemove = function(e){
+                if(w.flag){
+                    w.element.style.top = `${e.pageY - winY}px`
+                    w.element.style.left = `${e.pageX - winX}px`
+                }
             }
         }
 
@@ -36,6 +52,15 @@ class Window{
         w.element.getElementsByClassName("winCloseBtn")[0].onclick = function(e){
             w.close()
         }
+
+        if(!Window.Top){
+            Window.Top = 0
+        }
+        if(!Window.Left){
+            Window.Left = 0
+        }
+        w.element.style.top = `${Window.Top += 16}px`
+        w.element.style.left = `${Window.Left += 16}px`
 
         return w
     }
