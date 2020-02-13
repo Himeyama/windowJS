@@ -14,6 +14,7 @@ class Window{
 
         let w = new Window
         let win = document.createElement("div")
+        win.style.zIndex = (Window.zIndex ? Window.zIndex : 1)
         win.id = id
         win.className = "window"
         win.innerHTML 
