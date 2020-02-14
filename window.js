@@ -16,7 +16,6 @@ class Window{
         let win = document.createElement("div")
         win.style.zIndex = (Window.zIndex ? Window.zIndex : 1)
         win.id = id
-        Window.list[Window.list.length] = win.id
         Window.activeID = win.id
         win.className = "window"
         win.innerHTML 
@@ -65,6 +64,8 @@ class Window{
         }
         w.element.style.top = `${Window.Top += 16}px`
         w.element.style.left = `${Window.Left += 16}px`
+
+        Window.list[Window.list.length] = w
 
         return w
     }
