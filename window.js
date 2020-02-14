@@ -34,6 +34,7 @@ class Window{
             if(!Window.zIndex){
                 Window.zIndex = 1
             }
+            Window.activeID = w.id
             w.element.style.zIndex = Window.zIndex++
 
             // ウィンドウの移動
