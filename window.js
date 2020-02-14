@@ -16,6 +16,8 @@ class Window{
         let win = document.createElement("div")
         win.style.zIndex = (Window.zIndex ? Window.zIndex : 1)
         win.id = id
+        Window.list[Window.list.length] = win.id
+        Window.activeID = win.id
         win.className = "window"
         win.innerHTML 
             = `<div class="winTitle"><div class="winTitleText"></div><div class="winCloseBtn"></div></div><div class="winContents"></div>`
@@ -81,3 +83,4 @@ class Window{
         this.element.getElementsByClassName("winContents")[0].innerHTML = html
     }
 }
+Window.list = []
