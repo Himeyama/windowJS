@@ -10,10 +10,12 @@ class Window{
             Window.list[i].element.children[0].style.backgroundColor = "#3a3a3a"
             Window.list[i].element.children[1].style.backgroundColor = "#3a3a3a"
             Window.list[i].element.style.color = "#aaa"
+            Window.list[i].element.style.boxShadow = "unset"
         }
         w.element.children[0].style.backgroundColor = "#2c2c2c"
         w.element.children[1].style.backgroundColor = "#2c2c2c"
         w.element.style.color = "#fff"
+        w.element.style.boxShadow = "0px 0px 8px 0px #333"
     }
 
     static create(id){
