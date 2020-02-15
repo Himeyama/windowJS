@@ -6,16 +6,20 @@ class Window{
     
     color(){
         let w = this
+        Window.noactive()
+        w.element.children[0].style.backgroundColor = "#2c2c2c"
+        w.element.children[1].style.backgroundColor = "#2c2c2c"
+        w.element.style.color = "#fff"
+        w.element.style.boxShadow = "0px 0px 8px 0px #333"
+    }
+
+    static noactive(){
         for(let i = 0; i < Window.list.length; i++){
             Window.list[i].element.children[0].style.backgroundColor = "#3a3a3a"
             Window.list[i].element.children[1].style.backgroundColor = "#3a3a3a"
             Window.list[i].element.style.color = "#aaa"
             Window.list[i].element.style.boxShadow = "unset"
         }
-        w.element.children[0].style.backgroundColor = "#2c2c2c"
-        w.element.children[1].style.backgroundColor = "#2c2c2c"
-        w.element.style.color = "#fff"
-        w.element.style.boxShadow = "0px 0px 8px 0px #333"
     }
 
     static create(id){
@@ -28,7 +32,7 @@ class Window{
 
         let w = new Window
         let win = document.createElement("div")
-        win.style.zIndex = (Window.zIndex ? Window.zIndex : 1)
+        win.style.zIndex = Window.zIndex
         win.id = id
         Window.activeID = win.id
         win.className = "window"
@@ -38,7 +42,9 @@ class Window{
         document.body.appendChild(win)
         w.element = document.getElementById(id)
 
-        w.color()
+        setTimeout(function(){
+            w.color()
+        }, 30)
 
         // ウィンドウの移動
         let winY, winX
@@ -103,3 +109,20 @@ class Window{
     }
 }
 Window.list = []
+Window.zIndex = 1
+
+// 窓外をクリックしたとき
+document.body.onclick = function(e){
+    let element = e.target
+    while(element.localName != "body"){
+        element = element.parentElement
+        if(element.className == "window"){
+            break
+        }
+    }
+    if(element.className == "window"){
+        Window.activeID = undefined
+    }else{
+        Window.noactive()
+    }
+}
