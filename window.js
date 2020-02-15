@@ -4,6 +4,18 @@ class Window{
     element
     flag = false
     
+    color(){
+        let w = this
+        for(let i = 0; i < Window.list.length; i++){
+            Window.list[i].element.children[0].style.backgroundColor = "#3a3a3a"
+            Window.list[i].element.children[1].style.backgroundColor = "#3a3a3a"
+            Window.list[i].element.style.color = "#aaa"
+        }
+        w.element.children[0].style.backgroundColor = "#2c2c2c"
+        w.element.children[1].style.backgroundColor = "#2c2c2c"
+        w.element.style.color = "#fff"
+    }
+
     static create(id){
         if(document.getElementById(id)){
             let err = Window.create("Error" + String(Math.floor(Math.random() * Math.floor(1000000))))
@@ -24,6 +36,8 @@ class Window{
         document.body.appendChild(win)
         w.element = document.getElementById(id)
 
+        w.color()
+
         // ウィンドウの移動
         let winY, winX
         w.element.getElementsByClassName("winTitle")[0].onmousedown = function(e){
@@ -38,6 +52,8 @@ class Window{
             }
             Window.activeID = w.id
             w.element.style.zIndex = Window.zIndex++
+
+            w.color()
 
             // ウィンドウの移動
             document.body.onmouseup = function(e){
