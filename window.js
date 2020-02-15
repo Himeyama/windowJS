@@ -70,7 +70,7 @@ class Window{
         }
 
         // ウィンドウを閉じる
-        w.element.getElementsByClassName("winCloseBtn")[0].onclick = function(e){
+        w.element.getElementsByClassName("winCloseBtn")[0].onmousedown = function(e){
             w.close()
         }
 
