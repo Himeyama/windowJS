@@ -114,15 +114,17 @@ Window.zIndex = 1
 // 窓外をクリックしたとき
 document.body.onclick = function(e){
     let element = e.target
+    console.log(element)
     while(element.localName != "body"){
         element = element.parentElement
-        if(element.className == "window"){
+        if(element.classList.contains("window")){
             break
         }
     }
-    if(element.className == "window"){
+    if(element.classList.contains("window")){
         Window.activeID = undefined
     }else{
         Window.noactive()
     }
+    console.log(element)
 }
