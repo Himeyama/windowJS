@@ -7,18 +7,12 @@ class Window{
     color(){
         let w = this
         Window.noactive()
-        w.element.children[0].style.backgroundColor = "#2c2c2c"
-        w.element.children[1].style.backgroundColor = "#2c2c2c"
-        w.element.style.color = "#fff"
-        w.element.style.boxShadow = "0px 0px 8px 0px #333"
+        w.element.classList.remove("noactive")
     }
 
     static noactive(){
         for(let i = 0; i < Window.list.length; i++){
-            Window.list[i].element.children[0].style.backgroundColor = "#3a3a3a"
-            Window.list[i].element.children[1].style.backgroundColor = "#3a3a3a"
-            Window.list[i].element.style.color = "#aaa"
-            Window.list[i].element.style.boxShadow = "unset"
+            Window.list[i].element.classList.add("noactive")
         }
     }
 
