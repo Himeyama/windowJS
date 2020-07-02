@@ -9,6 +9,8 @@ title: window.js
 <script>
 w0 = Window.create("readme")
 w0.setTitle("window.js")
+w0.setTheme("theme-origina")
+w0.setTheme("theme-original")
 w0.setContents("<h1>window.js</h1><p>window.jsはウィンドウを再現するスクリプトです。</p>")
 </script>
 

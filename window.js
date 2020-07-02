@@ -10,6 +10,18 @@ class Window{
         w.element.classList.remove("noactive")
     }
 
+    setTheme(theme){
+        let obj = document.getElementById(this.id)
+        for(let i = 0; i < obj.classList.length; i++){
+            console.log(obj.classList[i])
+            if(obj.classList[i].match(/^themes-.*/)){
+                console.log(obj.classList[i])
+                obj.classList.remove(obj.classList[i])
+            }
+        }
+        obj.classList.add(theme)
+    }
+
     static noactive(){
         for(let i = 0; i < Window.list.length; i++){
             Window.list[i].element.classList.add("noactive")
