@@ -1,0 +1,38 @@
+<!-- <div class="window">
+    <div class="title_zone">
+        <div class="icon">
+        </div>
+        <div class="title">
+            タイトル
+        </div>
+        <div class="btn">
+            <div class="btn_l"></div>
+            <div class="btn_mr"></div>
+            <div class="btn_m"></div>
+            <div class="btn_r"></div>
+        </div>
+    </div>
+    <div class="frame">
+        <section>
+            あいうえお
+        </section>
+    </div>
+</div> -->
+
+<!Doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="window_w.css">
+    </head>
+    <body>
+        <script src="https://himeyama.github.io/assets/js/rand_theme_color.js"></script>
+        <script src="window_w.js"></script>
+        <script>
+        w1 = Window.create("hoge")
+        w1.title = "タイトル"
+        frame_element = document.createElement("div")
+        frame_element.innerHTML = "<h1>Hello, world!</h1>"
+        w1.frame = frame_element
+        </script>
+    </body>
+</html>
