@@ -17,6 +17,16 @@ html
         user-select: none
         &.noactive
             box-shadow: rgba(26, 26, 26, 0.13) 0px 0px 16px 8px
+            .title_zone
+                background-color: white
+                .title
+                    color: #BDBDBD
+                .btn
+                    div
+                        &:hover
+                            background-color: #BDBDBD
+                        color: #1a1a1a
+                
 
         &.size_max
             height: calc(100% - 2px)
@@ -35,6 +45,7 @@ html
             font-size: 0
             border-bottom: solid 1px transparent
             display: flex
+            background: var(--color)
             .icon
                 width: 26px
                 height: 26px
@@ -43,7 +54,7 @@ html
             .title
                 line-height: 30px
                 font-size: 14px
-                color: #1a1a1a
+                color: #fff
                 display: inline-block
                 vertical-align: top
             .btn
@@ -58,8 +69,9 @@ html
                     text-align: center
                     line-height: 30px
                     font-family: Segoe MDL2 Assets
+                    color: white
                     &:hover
-                        background-color: var(--theme_color2)
+                        background-color: var(--light)
                         color: white
                 .btn_l
                     display: none
@@ -67,7 +79,7 @@ html
                     display: none
                 .btn_r
                     &:hover
-                        background-color: #f44336
+                        background-color: #f44336 !important
         .frame
             height: calc(100% - 30px)
             resize: both
