@@ -107,9 +107,33 @@ Shell.manager = {}
 class Dir{
     path = "/root/"
 
-    static getFullPath(path){
-        let ary = path.split("/").map(function(e){return e + "/"})
-        return ary
+    getFullPath(path){
+        let tp = this.path
+        let parent = 0;
+        let ary
+        if(path && path.match("^/.*"))
+            return path
+        if(path){
+            let ary2 = []
+            ary = path.split("/").map(function(e){return e + "/"})
+            for(let i = 0; i < ary.length; i++)
+                if(ary[i] == "../")
+                    parent++
+                else if(ary[i] == "./")
+                    1
+                else
+                    ary2 = ary2.concat(ary[i])
+            console.log(ary2)
+            path = ary2.join("")
+        }
+        let tmp = tp.split("/").map(function(e){return e + "/"})
+        tp = tmp.slice(0, tmp.length - 1 - parent).join("")
+        path = path ?
+            tp + path
+        :
+            tp
+        console.log(path)
+        return path
     }
 
     pwd(){
@@ -117,8 +141,7 @@ class Dir{
     }
 
     ls(path){
-        if(!path)
-            path = this.path
+        path = this.getFullPath(path)
         let ary = path.split("/").map(function(e){return e + "/"})
         ary = ary.slice(0, ary.length - 1)
         let dir = Dir.fs
