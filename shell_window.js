@@ -222,7 +222,11 @@ class Dir{
         }
         if(Dir.fileType(path) == "Directory")
             return `cat: ${tmp}: ディレクトリです<br>`
-        return dir.data
+        let str = dir.data
+        let dummy = document.createElement("div")
+        dummy.innerText = str
+        str = dummy.innerHTML
+        return str
     }
 
     cd(path){
@@ -245,7 +249,7 @@ class Dir{
 }
 Dir.fs = {
     "root": {
-        "readme": {"data": "ターミナルっぽいやつです<br>"},
+        "readme": {"data": "ターミナルっぽいやつです\n"},
         "dir": {}
     },
     "etc": {},
