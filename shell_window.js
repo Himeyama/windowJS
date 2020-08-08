@@ -15,7 +15,8 @@ class Shell{
         shell_window.frame = shell_object.frame_object
 
         shell_window.element.getElementsByClassName("frame")[0].onclick = function(e){
-            e.target.getElementsByTagName("input")[0].focus()
+            if(e.target.getElementsByTagName("input")[0])
+                e.target.getElementsByTagName("input")[0].focus()
         }
         
         return shell_object
@@ -27,7 +28,6 @@ class Shell{
         let shell = Shell.link(shell_window)
         shell.frame_object.innerHTML = shell.ps1 + "<input>"
         Shell.manager[id] = shell
-        console.log(shell_window)
         return shell
     }
 
@@ -75,21 +75,10 @@ class Shell{
     }
 
     ls(command){
-        let command_ary = command.split(" ")
-        let ary
-        let str = ""
-        ary = command_ary.length == 1 ?
-            this.fs.ls()
-        :
-            this.fs.ls(command_ary[1])
-        if(!ary)
-            return `ls: '${command_ary[1]}' にアクセスできません: そのようなファイルやディレクトリはありません<br>`
-        for(let i = 0; i < ary.length; i++)
-            ary[i].match("^.*/$") ?
-                str += `<span style="color: var(--shell_blue);">${ary[i]}</span> `
-            :
-                str += `${ary[i]} `
-        str += "<br>"
+        let path = command.split(" ")[1]
+        let str = this.fs.ls(path)
+        if(str)
+            str += "<br>"
         return str
     }
 
@@ -107,35 +96,31 @@ ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} <br>`
 Shell.manager = {}
 
 class Dir{
-    path = "/root/"
+    path = ["root"]
 
     getFullPath(path){
-        let tp = this.path
-        let parent = 0;
-        let ary
-        if(path && path.match("^/.*"))
-            return path
-        if(path){
-            let ary2 = []
-            ary = path.split("/").map(function(e){return e + "/"})
-            for(let i = 0; i < ary.length; i++)
-                if(ary[i] == "../")
-                    parent++
-                else if(ary[i] == "./")
-                    1
-                else
-                    ary2 = ary2.concat(ary[i])
-            console.log(ary2)
-            path = ary2.join("")
+        let r
+        if(!path)
+            path = ""
+        if(path.match("^/.*"))
+            r = path.split("/")
+        else
+            r = this.path.concat(path.split("/"))
+        if(r[0] == "")
+            r = r.slice(1)
+        if(r[r.length - 1] == "")
+            r = r.slice(0, -1)
+        let tmp = []
+        for(let i = 0; i < r.length; i++){
+            if(r[i] == "..")
+                tmp = tmp.slice(0, -1)
+            else if(r[i] == ".")
+                1
+            else
+                tmp = tmp.concat(r[i])
         }
-        let tmp = tp.split("/").map(function(e){return e + "/"})
-        tp = tmp.slice(0, tmp.length - 1 - parent).join("")
-        path = path ?
-            tp + path
-        :
-            tp
-        console.log(path)
-        return path
+        r = tmp
+        return r
     }
 
     pwd(){
@@ -143,29 +128,55 @@ class Dir{
     }
 
     ls(path){
+        let tmp = path
         path = this.getFullPath(path)
-        let ary = path.split("/").map(function(e){return e + "/"})
-        ary = ary.slice(0, ary.length - 1)
+        let str = ""
         let dir = Dir.fs
-        for(let i = 0; i < ary.length; i++)
-            if(dir[ary[i]])
-                dir = dir[ary[i]]
+        if(Dir.fileType(path) == "File")
+            return `${path[path.length - 1]}`
+        for(let i = 0; i < path.length; i++)
+            if(dir[path[i]])
+                dir = dir[path[i]]
             else
-                return false
-        return Object.keys(dir)
+                return `ls: '${tmp}' にアクセスできません: そのようなファイルやディレクトリはありません`
+        let list = Object.keys(dir)
+        for(let i = 0; i < list.length; i++){
+            let filePath = path.concat(list[i])
+            let fileType = Dir.fileType(filePath)
+            if(fileType == "Directory"){
+                str += `<span style="color: var(--shell_blue);">${list[i]}</span> `
+            }else{
+                str += `${list[i]} `
+            }
+        }
+        return str
+    }
+
+    static fileType(path){
+        if(!path)
+            return undefined
+        let dir = Dir.fs
+        for(let i = 0; i < path.length; i++){
+            if(dir[path[i]])
+                dir = dir[path[i]]
+            else
+                return false    
+        }
+        if(dir["data"])
+            return "File"
+        else
+            return "Directory"
     }
 }
 Dir.fs = {
-    "/": {
-        "root/": {
-            "file": {},
-            "file1": {},
-            "dir/": {}
-        },
-        "etc/": {},
-        "bin/": {},
-        "usr/": {}
-    }
+    "root": {
+        "file": {"data": "hogehoge"},
+        "file1": {"data": "hogehoge"},
+        "dir": {}
+    },
+    "etc": {},
+    "bin": {},
+    "usr": {}
 }
 
 document.addEventListener("keydown", function(e){
