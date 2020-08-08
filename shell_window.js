@@ -58,6 +58,10 @@ class Shell{
             return this.clear(command)
         else if(c0 == "pwd")
             return this.pwd(command)
+        else if(c0 == "help")
+            return this.help(command)
+        else if(c0 == "cat")
+            return this.cat(command)
 
         return `${c0}: が見つかりません<br>`
     }
@@ -66,7 +70,6 @@ class Shell{
         this.terminal_display = ""
         this.frame_object.innerHTML = this.ps1 + `<input>`
         this.pass = true
-        console.log(this)
     }
 
     echo(command){
@@ -77,9 +80,12 @@ class Shell{
     ls(command){
         let path = command.split(" ")[1]
         let str = this.fs.ls(path)
-        if(str)
-            str += "<br>"
         return str
+    }
+
+    cat(command){
+        let path = command.split(" ")[1]
+        return this.fs.cat(path)
     }
 
     pwd(command){
@@ -90,7 +96,11 @@ class Shell{
         let date = new Date
         return `${date.getFullYear()}年 ${date.getMonth() + 1}月 ${date.getDate()}日 \
 ${["日", "月", "火", "水", "木", "金", "土"][date.getDay()]}曜日 \
-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} <br>`
+${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}:${("0" + date.getSeconds()).slice(-2)} <br>`
+    }
+
+    help(command){
+        return "&nbsp;cat<br>&nbsp;clear<br>&nbsp;date<br>&nbsp;echo<br>&nbsp;help<br>&nbsp;ls [dir]<br>&nbsp;pwd<br>"
     }
 }
 Shell.manager = {}
@@ -124,7 +134,7 @@ class Dir{
     }
 
     pwd(){
-        return this.path
+        return [""].concat(this.path).join("/")
     }
 
     ls(path){
@@ -133,12 +143,12 @@ class Dir{
         let str = ""
         let dir = Dir.fs
         if(Dir.fileType(path) == "File")
-            return `${path[path.length - 1]}`
+            return `${path[path.length - 1]}<br>`
         for(let i = 0; i < path.length; i++)
             if(dir[path[i]])
                 dir = dir[path[i]]
             else
-                return `ls: '${tmp}' にアクセスできません: そのようなファイルやディレクトリはありません`
+                return `ls: '${tmp}' にアクセスできません: そのようなファイルやディレクトリはありません<br>`
         let list = Object.keys(dir)
         for(let i = 0; i < list.length; i++){
             let filePath = path.concat(list[i])
@@ -149,6 +159,7 @@ class Dir{
                 str += `${list[i]} `
             }
         }
+        if(str) str += "<br>"
         return str
     }
 
@@ -167,11 +178,30 @@ class Dir{
         else
             return "Directory"
     }
+
+    cat(path){
+        let tmp = path
+        if(!path)
+            return undefined
+        path = this.getFullPath(path)
+        let dir = Dir.fs
+        for(let i = 0; i < path.length; i++){
+            if(dir[path[i]])
+                dir = dir[path[i]]
+            else
+                return `cat: ${tmp}: そのようなファイルやディレクトリはありません<br>`  
+        }
+        if(Dir.fileType(path) == "Directory")
+            return `cat: ${tmp}: ディレクトリです<br>`
+        return dir.data
+    }
+
+    
 }
 Dir.fs = {
     "root": {
         "file": {"data": "hogehoge"},
-        "file1": {"data": "hogehoge"},
+        "file1": {"data": "foo"},
         "dir": {}
     },
     "etc": {},
