@@ -5,9 +5,13 @@ body
     --shell_green: rgb(22, 198, 12)
     --shell_blue: rgb(59, 120, 255)
     .Shell
+        &.size_max
+            .frame
+                height: calc(100% - 30px)
+                width: 100%
         .frame
-            height: 360px
-            width: 600px
+            height: 600px
+            width: 900px
             background: #1a1a1a
             color: #fafafa
             font-family: Cascadia Code PL, Space Mono, Meiryo, monospace
@@ -24,5 +28,4 @@ body
                     color: #fafafa
                     font-family: Cascadia Code PL, Space Mono, Meiryo, monospace
                     border: none
-                    width: 360px
                     padding: 0
