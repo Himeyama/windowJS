@@ -1,7 +1,7 @@
 class Shell{
     frame_object
     shell_window
-    terminal_display = ""
+    terminal_display = "Welcome to Himeyama's website (https://himeyama.github.io/)<br><br>&nbsp;*&nbsp;Source code:&nbsp;&nbsp;https://github.com/himeyama/windowJS<br><br>"
     ps1 = `<span class="ps1"><span style="color:var(--shell_green);">Terminal</span> <span style="color:var(--shell_blue);">~</span> $&nbsp;</span>`
     pass = false
     fs
@@ -27,7 +27,7 @@ class Shell{
         let shell_window = Window.create(id)
         shell_window.title = "Terminal"
         let shell = Shell.link(shell_window)
-        shell.frame_object.innerHTML = shell.ps1 + "<input>"
+        shell.frame_object.innerHTML = shell.terminal_display + shell.ps1 + "<input>"
         Shell.manager[id] = shell
         return shell
     }
