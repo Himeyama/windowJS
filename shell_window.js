@@ -2,9 +2,10 @@ class Shell{
     frame_object
     shell_window
     terminal_display = ""
-    ps1 = `<span style="color:var(--shell_green);">Terminal</span> <span style="color:var(--shell_blue);">~</span> $ `
+    ps1 = `<span class="ps1"><span style="color:var(--shell_green);">Terminal</span> <span style="color:var(--shell_blue);">~</span> $&nbsp;</span>`
     pass = false
     fs
+    home = ["root"]
 
     static link(shell_window){
         let shell_object = new Shell
@@ -37,7 +38,9 @@ class Shell{
         let out = shell.command(command)
         if(!shell.pass){
             shell.terminal_display += shell.ps1 + `${command}<br>${out}`
-            shell.frame_object.innerHTML = shell.terminal_display + shell.ps1 + `<input>`
+            shell.ps1 = `<span class="ps1"><span style="color:var(--shell_green);">Terminal</span> <span style="color:var(--shell_blue);">${shell.fs.hpwd()}</span> $&nbsp;</span>`
+            shell.frame_object.innerHTML = shell.terminal_display + shell.ps1
+            shell.frame_object.innerHTML += `<input style="width: ${shell.frame_object.offsetWidth - Array.from(shell.frame_object.getElementsByClassName("ps1")).slice(-1)[0].offsetWidth - 16}px;">`
         }
         shell.pass = false
         shell.frame_object.getElementsByTagName("input")[0].focus()
@@ -111,7 +114,7 @@ ${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}:${("
 
     help(command){
         let ary = [
-            "cat", "cd", "clear", "date", "echo", "help", "ls [dir]", "pwd" 
+            "cat [file]", "cd [dir]", "clear", "date", "echo [text]", "help", "ls [dir]", "pwd" 
         ]
         return ary.map(function(e){return `&nbsp;${e}`}).join("<br>") + "<br>"
     }
@@ -119,7 +122,20 @@ ${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}:${("
 Shell.manager = {}
 
 class Dir{
+    homepath = ["root"]
     path = ["root"]
+
+    hpwd(){
+        let str = ""
+        let b = true
+        let i
+        if(this.path.length == 0)
+            return "/"
+        for(i = 0; i < this.homepath.length; i++)
+            if(!this.path.includes(this.homepath[i]))
+                return [""].concat(this.path).join("/")
+        return "~" + [""].concat(this.path.slice(i)).join("/")
+    }
 
     getFullPath(path){
         let r
@@ -195,7 +211,7 @@ class Dir{
     cat(path){
         let tmp = path
         if(!path)
-            return undefined
+            return ""
         path = this.getFullPath(path)
         let dir = Dir.fs
         for(let i = 0; i < path.length; i++){
@@ -229,8 +245,7 @@ class Dir{
 }
 Dir.fs = {
     "root": {
-        "file": {"data": "hogehoge"},
-        "file1": {"data": "foo"},
+        "readme": {"data": "ターミナルっぽいやつです<br>"},
         "dir": {}
     },
     "etc": {},
