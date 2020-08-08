@@ -82,6 +82,8 @@ class Shell{
             this.fs.ls()
         :
             this.fs.ls(command_ary[1])
+        if(!ary)
+            return `ls: '${command_ary[1]}' にアクセスできません: そのようなファイルやディレクトリはありません<br>`
         for(let i = 0; i < ary.length; i++)
             ary[i].match("^.*/$") ?
                 str += `<span style="color: var(--shell_blue);">${ary[i]}</span> `
@@ -146,7 +148,10 @@ class Dir{
         ary = ary.slice(0, ary.length - 1)
         let dir = Dir.fs
         for(let i = 0; i < ary.length; i++)
-            dir = dir[ary[i]]
+            if(dir[ary[i]])
+                dir = dir[ary[i]]
+            else
+                return false
         return Object.keys(dir)
     }
 }
