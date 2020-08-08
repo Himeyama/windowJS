@@ -62,6 +62,8 @@ class Shell{
             return this.help(command)
         else if(c0 == "cat")
             return this.cat(command)
+        else if(c0 == "cd")
+            return this.cd(command)
 
         return `${c0}: が見つかりません<br>`
     }
@@ -92,6 +94,14 @@ class Shell{
         return this.fs.pwd() + "<br>"
     }
 
+    cd(command){
+        let path = command.split(" ")[1]
+        if(!path)
+            return ""
+        let status = this.fs.cd(path)
+        return status
+    }
+
     date(command){
         let date = new Date
         return `${date.getFullYear()}年 ${date.getMonth() + 1}月 ${date.getDate()}日 \
@@ -100,7 +110,10 @@ ${("0" + date.getHours()).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}:${("
     }
 
     help(command){
-        return "&nbsp;cat<br>&nbsp;clear<br>&nbsp;date<br>&nbsp;echo<br>&nbsp;help<br>&nbsp;ls [dir]<br>&nbsp;pwd<br>"
+        let ary = [
+            "cat", "cd", "clear", "date", "echo", "help", "ls [dir]", "pwd" 
+        ]
+        return ary.map(function(e){return `&nbsp;${e}`}).join("<br>") + "<br>"
     }
 }
 Shell.manager = {}
@@ -196,7 +209,23 @@ class Dir{
         return dir.data
     }
 
-    
+    cd(path){
+        let tmp = path
+        if(!path)
+            return undefined
+        path = this.getFullPath(path)
+        let dir = Dir.fs
+        for(let i = 0; i < path.length; i++){
+            if(dir[path[i]])
+                dir = dir[path[i]]
+            else
+                return `cd: ${tmp}: そのようなファイルやディレクトリはありません<br>`  
+        }
+        if(Dir.fileType(path) != "Directory")
+            return `cd: ${tmp}: ディレクトリではありません<br>`
+        this.path = path
+        return ""
+    }
 }
 Dir.fs = {
     "root": {
