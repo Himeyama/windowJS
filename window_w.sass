@@ -4,6 +4,9 @@
 html
     height: 100%
     body
+        --color: #2196f3
+        --light: #6ec6ff
+        --dark: #0069c0
         height: 100%
         width: 100%
         margin: 0
@@ -14,7 +17,6 @@ html
         border: solid 1px var(--theme_color)
         position: absolute
         box-shadow: rgba(26, 26, 26, 0.16) 0px 0px 16px 8px
-        user-select: none
         &.noactive
             box-shadow: rgba(26, 26, 26, 0.13) 0px 0px 16px 8px
             .title_zone
@@ -46,6 +48,7 @@ html
             border-bottom: solid 1px transparent
             display: flex
             background: var(--color)
+            user-select: none
             .icon
                 width: 26px
                 height: 26px
