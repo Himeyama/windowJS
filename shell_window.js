@@ -99,9 +99,17 @@ class Shell{
 
     cd(command){
         let path = command.split(" ")[1]
+        let flag
+        if(path == "-"){
+            flag = true
+            if(!this.fs.old_path)
+                return "cd: 設定されていません<br>"
+            path = [""].concat(this.fs.old_path).join("/")
+        }
         if(!path)
-            return ""
+            path = [""].concat(this.fs.homepath).join("/")
         let status = this.fs.cd(path)
+        if(flag) status = `${this.pwd(command)}${status}`
         return status
     }
 
@@ -124,6 +132,7 @@ Shell.manager = {}
 class Dir{
     homepath = ["root"]
     path = ["root"]
+    old_path = null
 
     hpwd(){
         let str = ""
@@ -230,6 +239,7 @@ class Dir{
     }
 
     cd(path){
+        this.old_path = this.path
         let tmp = path
         if(!path)
             return undefined
