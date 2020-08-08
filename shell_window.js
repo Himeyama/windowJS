@@ -4,9 +4,11 @@ class Shell{
     terminal_display = ""
     ps1 = `<span style="color:var(--shell_green);">Terminal</span> <span style="color:var(--shell_blue);">~</span> $ `
     pass = false
+    fs
 
     static link(shell_window){
         let shell_object = new Shell
+        shell_object.fs = new Dir
         shell_object.shell_window = shell_window
         shell_window.element.classList.add("Shell")
         shell_object.frame_object = document.createElement("div")
@@ -54,6 +56,8 @@ class Shell{
             return this.date(command)
         else if(c0 == "clear")
             return this.clear(command)
+        else if(c0 == "pwd")
+            return this.pwd(command)
 
         return `${c0}: が見つかりません<br>`
     }
@@ -71,7 +75,24 @@ class Shell{
     }
 
     ls(command){
-        return ""
+        let command_ary = command.split(" ")
+        let ary
+        let str = ""
+        ary = command_ary.length == 1 ?
+            this.fs.ls()
+        :
+            this.fs.ls(command_ary[1])
+        for(let i = 0; i < ary.length; i++)
+            ary[i].match("^.*/$") ?
+                str += `<span style="color: var(--shell_blue);">${ary[i]}</span> `
+            :
+                str += `${ary[i]} `
+        str += "<br>"
+        return str
+    }
+
+    pwd(command){
+        return this.fs.pwd() + "<br>"
     }
 
     date(command){
@@ -84,26 +105,35 @@ ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} <br>`
 Shell.manager = {}
 
 class Dir{
-    path
+    path = "/root/"
 
-    constructor(){
-        this.path = "/root/"
+    static getFullPath(path){
+        let ary = path.split("/").map(function(e){return e + "/"})
+        return ary
     }
 
     pwd(){
         return this.path
     }
 
-    ls(){
-        let path = this.path
+    ls(path){
+        if(!path)
+            path = this.path
         let ary = path.split("/").map(function(e){return e + "/"})
         ary = ary.slice(0, ary.length - 1)
-        console.log(path, ary)
+        let dir = Dir.fs
+        for(let i = 0; i < ary.length; i++)
+            dir = dir[ary[i]]
+        return Object.keys(dir)
     }
 }
 Dir.fs = {
     "/": {
-        "root/": {},
+        "root/": {
+            "file": {},
+            "file1": {},
+            "dir/": {}
+        },
         "etc/": {},
         "bin/": {},
         "usr/": {}
