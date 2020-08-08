@@ -248,13 +248,22 @@ class Dir{
     }
 }
 Dir.fs = {
+    "bin": {},
+    "dev": {},
+    "home": {},
+    "lib": {},
+    "mnt": {},
+    "boot": {},
+    "etc": {},
+    "opt": {},
     "root": {
         "readme": {"data": "ターミナルっぽいやつです\n"},
         "dir": {}
     },
-    "etc": {},
-    "bin": {},
-    "usr": {}
+    "sbin": {},
+    "usr": {},    
+    "tmp": {},
+    "var": {}
 }
 
 document.addEventListener("keydown", function(e){
