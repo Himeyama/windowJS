@@ -16,8 +16,8 @@ class Shell{
         shell_window.frame = shell_object.frame_object
 
         shell_window.element.getElementsByClassName("frame")[0].onclick = function(e){
-            if(e.target.getElementsByTagName("input")[0])
-                e.target.getElementsByTagName("input")[0].focus()
+            if(e.target.getElementsByClassName("input")[0])
+                e.target.getElementsByClassName("input")[0].focus()
         }
         
         return shell_object
@@ -27,26 +27,28 @@ class Shell{
         let shell_window = Window.create(id)
         shell_window.title = "Terminal"
         let shell = Shell.link(shell_window)
-        shell.frame_object.innerHTML = shell.terminal_display + shell.ps1 + "<input>"
+        shell.frame_object.innerHTML = shell.terminal_display + shell.ps1 + `<span class="input" contenteditable="true"></span>`
         Shell.manager[id] = shell
         return shell
     }
 
     static keydown_enter(id){
         let shell = Shell.manager[id]
-        let command = shell.frame_object.getElementsByTagName("input")[0].value
+        let command = shell.frame_object.getElementsByClassName("input")[0].innerText
         let out = shell.command(command)
         if(!shell.pass){
             shell.terminal_display += shell.ps1 + `${command}<br>${out}`
             shell.ps1 = `<span class="ps1"><span style="color:var(--shell_green);">Terminal</span> <span style="color:var(--shell_blue);">${shell.fs.hpwd()}</span> $&nbsp;</span>`
-            shell.frame_object.innerHTML = shell.terminal_display + shell.ps1
-            shell.frame_object.innerHTML += `<input style="width: ${shell.frame_object.offsetWidth - Array.from(shell.frame_object.getElementsByClassName("ps1")).slice(-1)[0].offsetWidth - 16}px;">`
+            shell.frame_object.innerHTML = shell.terminal_display + shell.ps1            
+            shell.frame_object.innerHTML += `<span contenteditable="true" class="input"></span>`
+            console.log(shell.frame_object.innerHTML)
         }
         shell.pass = false
-        shell.frame_object.getElementsByTagName("input")[0].focus()
+        shell.frame_object.getElementsByClassName("input")[0].focus()
     }
 
     command(command){
+        command = command.replace(/\r?\n/g, "")
         let command_ary = command.split(" ")
         let c0 = command_ary[0]
         if(command == "")
@@ -73,7 +75,7 @@ class Shell{
 
     clear(command){
         this.terminal_display = ""
-        this.frame_object.innerHTML = this.ps1 + `<input>`
+        this.frame_object.innerHTML = this.ps1 + `<span class="input" contenteditable="true"></span>`
         this.pass = true
     }
 

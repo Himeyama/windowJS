@@ -17,15 +17,21 @@ body
             font-family: Cascadia Code PL, Space Mono, Meiryo, monospace
             div
                 padding: 8px
+                word-wrap: break-word
                 &::selection
                     background-color: rgb(133, 133, 133)
                 span
+                    &.ps1
+                        display: ruby
                     &::selection
                         background-color: rgb(133, 133, 133)
-                input
-                    font-size: 16px
-                    background-color: transparent
-                    color: #fafafa
-                    font-family: Cascadia Code PL, Space Mono, Meiryo, monospace
-                    border: none
-                    padding: 0
+                    &.input
+                        word-wrap: break-word
+                        font-size: 16px
+                        background-color: transparent
+                        color: #fafafa
+                        font-family: Cascadia Code PL, Space Mono, Meiryo, monospace
+                        border: none
+                        outline: none
+                        br
+                            display: none
