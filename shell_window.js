@@ -211,7 +211,7 @@ class Dir{
             else
                 return false    
         }
-        if(dir["data"])
+        if(dir["/data"])
             return "File"
         else
             return "Directory"
@@ -231,7 +231,7 @@ class Dir{
         }
         if(Dir.fileType(path) == "Directory")
             return `cat: ${tmp}: ディレクトリです<br>`
-        let str = dir.data
+        let str = dir["/data"]
         let dummy = document.createElement("div")
         dummy.innerText = str
         str = dummy.innerHTML
@@ -267,7 +267,7 @@ Dir.fs = {
     "etc": {},
     "opt": {},
     "root": {
-        "readme": {"data": "ターミナルっぽいやつです\n"},
+        "readme": {"/data": "ターミナルっぽいやつです\n"},
         "dir": {}
     },
     "sbin": {},
