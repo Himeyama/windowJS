@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+        <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="window_w.css">
+        <link rel="stylesheet" href="https://himeyama.github.io/assets/css/default_theme.css">
+        <script src="https://himeyama.github.io/assets/js/rand_color.js"></script>
+    </head>
+    <body>
+        <script src="window_w.js"></script>
+        <script>
+        let web_color = Window.create("web_color")
+        web_color.title = "web カラー変換"
+        content = document.createElement("div")
+        content.style.padding = "16px"
+        content.innerHTML = `RGB<br>\
+        <input type="text" id="r" placeholder="R" style="width: 48px">
+        <input type="text" id="g" placeholder="G" style="width: 48px">
+        <input type="text" id="b" placeholder="B" style="width: 48px"><br>
+        <br>
+        HEX<br>
+        <input type="text" id="hex" placeholder="#XXXXXX" style="width: 150px">`
+        web_color.frame = content
+        
+        setInterval(
+            function(){
+                let ae = document.activeElement.id
+                if(ae == "hex"){
+                    let hex = document.activeElement.value
+                    let match = hex.match(/^#?([0-9a-fA-F]{6})$/)
+                    if(match){
+                        hexColor = match[1]
+                        let r = parseInt(hexColor.slice(0, 2), 16)
+                        let g = parseInt(hexColor.slice(2, 4), 16)
+                        let b = parseInt(hexColor.slice(4, 6), 16)
+                        document.getElementById("r").value = r
+                        document.getElementById("g").value = g
+                        document.getElementById("b").value = b
+                        document.getElementById("web_color")
+                        .getElementsByClassName("title_zone")[0]
+                        .style.backgroundColor = `rgb(${r}, ${g}, ${b})`
+                    }
+                }else if(ae == "r" || ae == "g" || ae == "b"){
+                    let rs = document.getElementById("r").value
+                    let gs = document.getElementById("g").value
+                    let bs = document.getElementById("b").value
+                    let r = parseInt(rs)
+                    let g = parseInt(gs)
+                    let b = parseInt(bs)
+                    if(rs != "" && gs != "" && bs != ""){
+                        r = ("00" + r.toString(16)).slice(-2)
+                        g = ("00" + g.toString(16)).slice(-2)
+                        b = ("00" + b.toString(16)).slice(-2)
+                        document.getElementById("hex").value = "#" + r + g + b
+                        document.getElementById("web_color")
+                        .getElementsByClassName("title_zone")[0]
+                        .style.backgroundColor = `#${r}${g}${b}`
+                    }
+                }
+            },
+            100
+        )
+        </script>
+    </body>
+</html>
