@@ -1,0 +1,100 @@
+---
+---
+    
+.toggle-card
+    background-color: #FBFBFB
+    border: solid 1px #E5E5E5
+    border-radius: 4px
+    padding: 14px
+    display: grid
+    grid-template-columns: 1fr auto
+
+    .card-summary
+        .card-content
+            font-size: 16px
+            font-family: "Yu Gothic UI"
+            margin-bottom: 4px
+
+        .card-description
+            font-size: 11px
+            font-family: "Yu Gothic UI"
+            color: #5F5F5F
+
+    .toggle
+        margin-top: 8px
+
+@media (prefers-color-scheme: dark)
+    .toggle-card
+        background-color: #2B2B2B
+        border: solid 1px #1D1D1D
+        .card-summary
+            .card-description
+                color: #CFCFCF
+
+
+
+.toggle
+    height: 18px
+    width: 38px
+    border: solid 1px #898989
+    border-radius: 10px
+    background-color: #F5F5F5
+
+    &:hover
+        background-color: #ECECEC
+
+    &.isOn
+        background-color: #0067C0
+        border: solid 1px #0067C0
+        &:hover
+            background-color: #1A76C6
+            border: solid 1px #1A76C6
+    
+    .toggle-ball
+        height: 12px
+        width: 12px
+        background-color: #5D5D5D
+        margin-top: 3px
+        border-radius: 6px
+        margin-left: 3px
+        transition: .2s
+
+    &:hover
+        .toggle-ball
+            height: 14px
+            width: 14px
+            margin-top: 2px
+            border-radius: 7px
+            margin-left: 2px
+        
+    &.isOn
+        &:hover
+            &.toggle-ball
+                margin-left: 22px
+
+    &.isOn
+        .toggle-ball
+            margin-left: 23px
+            background-color: #FFFFFF
+
+
+@media (prefers-color-scheme: dark)
+    .toggle
+        border: solid 1px #9E9E9E
+        background-color: #272727
+        &:hover
+            background-color: #343434
+
+        &.isOn
+            background-color: #4CC2FF
+            border: solid 1px #4CC2FF
+            &:hover
+                background-color: #48B2EB
+                border: solid 1px #48B2EB
+        
+        .toggle-ball
+            background-color: #CECECE
+
+        &.isOn
+            .toggle-ball
+                background-color: #000000

@@ -27,9 +27,12 @@ html
                         &:last-child
                             &:hover
                                 border-radius: 0
+            .frame
+                width: 100% !important
+
         .frame
+            width: 937px
             border-radius: 0 0 8px 8px
-            width: 943px
             height: 634px
             display: grid
             user-select: none
@@ -60,24 +63,27 @@ html
             display: grid
             grid-template-columns: 1fr auto
             border-radius: 8px 8px 0 0
-        
-            height: 30px
+            height: 48px
             font-family: Meiryo UI
             font-size: 0
             border-bottom: solid 1px transparent
             user-select: none
             .title-without-button
+                grid-column: 1 / 2
+                grid-row: 1 / 2
                 .icon
-                    width: 26px
-                    height: 26px
+                    width: 44px
+                    height: 44px
                     display: inline-block
                     margin: 2px
                 .title
-                    line-height: 30px
-                    font-size: 14px
+                    line-height: 48px
+                    font-size: 12px
                     display: inline-block
                     vertical-align: top
             .btn
+                grid-column: 2 / 3
+                grid-row: 1 / 2
                 display: inline-block
                 margin-left: auto
                 div

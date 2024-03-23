@@ -1,0 +1,65 @@
+<!Doctype html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="window_w.css">
+</head>
+
+<body>
+    <script src="https://himeyama.github.io/assets/js/rand_color.js"></script>
+    <script src="window_w.js"></script>
+    
+    <div id="window-content">
+        <h1 class="app-content-title">設定</h2>
+        <div id="theme-changer" class="toggle-card">
+            <div class="card-summary">
+                <div class="card-content">言語の設定</div>
+                <div class="card-description">表示言語を英語に変更します</div>
+            </div>
+            <div class="toggle" id="change-theme-toggle">
+                <div class="toggle-ball"></div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @media (prefers-color-scheme: dark){
+            body{
+                background-color: #000000;
+            }
+        }
+        body .dark{
+            background-color: #000000;
+        }
+
+        #window-content{
+            margin: 32px;
+            display: flex;
+            flex-direction: column;
+        }
+        .app-content-title{
+            font-family: "Yu Gothic UI";
+            font-size: 28px;
+        }
+    </style>
+    <link rel="stylesheet" href="/assets/css/toggle.css"></style>
+
+    <script>
+        const w1 = Window.create("settings")
+        w1.title = "設定"
+        const frame = document.getElementById("window-content");
+        w1.frame = frame;
+
+        const changeThemeToggle = document.getElementById("change-theme-toggle");
+        changeThemeToggle.addEventListener("click", (e) => {
+            const isOn = Array.from(changeThemeToggle.classList).includes("isOn");
+            if(isOn){
+                changeThemeToggle.classList.remove("isOn");
+            }else{
+                changeThemeToggle.classList.add("isOn");
+            }
+        })
+    </script>
+</body>
+
+</html>

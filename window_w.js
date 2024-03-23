@@ -74,7 +74,7 @@ class Window{
 
         // ウィンドウの移動
         let winY, winX
-        w.element.getElementsByClassName("title_zone")[0].onmousedown = function(e){
+        w.element.getElementsByClassName("title-without-button")[0].onmousedown = function(e){
             w.flag = true
             winY = e.offsetY
             winX = e.offsetX
