@@ -12,21 +12,29 @@ html
         margin: 0
 
     .window
-        background-color: #fff
-        border: solid 1px var(--theme_color)
+        border-radius: 8px
+        background-color: #F2F2F2
+        border: solid 1px #B0B0B0
         position: absolute
         box-shadow: rgba(26, 26, 26, 0.16) 0px 0px 16px 8px
+        .title_zone
+            border-radius: 8px 8px 0 0
+        .frame
+            border-radius: 0 0 8px 8px
+            width: 943px
+            height: 634px
+            display: grid
+            user-select: none
         &.noactive
-            box-shadow: rgba(26, 26, 26, 0.13) 0px 0px 16px 8px
+            box-shadow: rgba(26, 26, 26, 0.13) 0px 0px 16px 4px
             .title_zone
-                background-color: white
                 .title
                     color: #BDBDBD
                 .btn
                     div
                         &:hover
                             background-color: #BDBDBD
-                        color: #1a1a1a
+                        color: #929292
                 
 
         &.size_max
@@ -46,7 +54,6 @@ html
             font-size: 0
             border-bottom: solid 1px transparent
             display: flex
-            background: var(--color)
             user-select: none
             .icon
                 width: 26px
@@ -56,7 +63,6 @@ html
             .title
                 line-height: 30px
                 font-size: 14px
-                color: #fff
                 display: inline-block
                 vertical-align: top
             .btn
@@ -71,19 +77,54 @@ html
                     text-align: center
                     line-height: 30px
                     font-family: Segoe MDL2 Assets
-                    color: white
+                    color: #000000
                     &:hover
-                        background-color: var(--light)
-                        color: white
+                        background-color: #E9E9E9
+                        color: #000000
+                    &:last-child
+                        &:hover
+                            border-radius: 0 7px 0 0
                 .btn_l
                     display: none
                 .btn_mr
                     display: none
                 .btn_r
                     &:hover
-                        background-color: #f44336 !important
+                        background-color: #C42B1C !important
+                        color: #FFFFFF
         .frame
-            height: calc(100% - 30px)
             resize: both
             overflow: auto
                     
+@media (prefers-color-scheme: dark)
+    html
+        body
+            background-color: #000000
+            --color: #2196f3
+            --light: #6ec6ff
+            --dark: #0069c0
+
+        .window
+            color: #FFFFFF
+            background-color: #202020
+            border: solid 1px #3C3C3C
+            box-shadow: rgba(26, 26, 26, 0.16) 0px 0px 16px 8px
+            &.noactive
+                box-shadow: rgba(26, 26, 26, 0.13) 0px 0px 16px 4px
+                .title_zone
+                    .title
+                        color: #797979
+                    .btn
+                        div
+                            &:hover
+                                background-color: #2D2D2D
+                            color: #797979
+            .title_zone
+                .title
+                    color: #FFFFFF
+                .btn
+                    div
+                        color: #FFFFFF
+                        &:hover
+                            background-color: #2D2D2D
+                            color: #FFFFFF
