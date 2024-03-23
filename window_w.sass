@@ -17,8 +17,16 @@ html
         border: solid 1px #B0B0B0
         position: absolute
         box-shadow: rgba(26, 26, 26, 0.16) 0px 0px 16px 8px
-        .title_zone
-            border-radius: 8px 8px 0 0
+        &.size_max
+            border: none
+            border-radius: 0
+            .title_zone
+                border-radius: 0
+                .btn
+                    div
+                        &:last-child
+                            &:hover
+                                border-radius: 0
         .frame
             border-radius: 0 0 8px 8px
             width: 943px
@@ -49,22 +57,26 @@ html
                     display: inline-block !important
 
         .title_zone
+            display: grid
+            grid-template-columns: 1fr auto
+            border-radius: 8px 8px 0 0
+        
             height: 30px
             font-family: Meiryo UI
             font-size: 0
             border-bottom: solid 1px transparent
-            display: flex
             user-select: none
-            .icon
-                width: 26px
-                height: 26px
-                display: inline-block
-                margin: 2px
-            .title
-                line-height: 30px
-                font-size: 14px
-                display: inline-block
-                vertical-align: top
+            .title-without-button
+                .icon
+                    width: 26px
+                    height: 26px
+                    display: inline-block
+                    margin: 2px
+                .title
+                    line-height: 30px
+                    font-size: 14px
+                    display: inline-block
+                    vertical-align: top
             .btn
                 display: inline-block
                 margin-left: auto
@@ -120,8 +132,9 @@ html
                                 background-color: #2D2D2D
                             color: #797979
             .title_zone
-                .title
-                    color: #FFFFFF
+                .title-without-button
+                    .title
+                        color: #FFFFFF
                 .btn
                     div
                         color: #FFFFFF

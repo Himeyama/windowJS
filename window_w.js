@@ -13,9 +13,7 @@ class Window{
     setTheme(theme){
         let obj = document.getElementById(this.id)
         for(let i = 0; i < obj.classList.length; i++){
-            console.log(obj.classList[i])
             if(obj.classList[i].match(/^themes-.*/)){
-                console.log(obj.classList[i])
                 obj.classList.remove(obj.classList[i])
             }
         }
@@ -24,7 +22,12 @@ class Window{
 
     static noactive(){
         for(let i = 0; i < Window.list.length; i++){
-            Window.list[i].element.classList.add("noactive")
+            const obj = Window.list[i].element;
+            if(Array.from(obj.classList).includes("temp-active-lock")){
+                window.setTimeout(() => {obj.classList.remove("temp-active-lock")}, 200);
+            }else{
+                obj.classList.add("noactive")
+            }
         }
     }
 
@@ -44,9 +47,11 @@ class Window{
         win.className = "window"
         win.innerHTML 
             = `<div class="title_zone">
-                <div class="icon">
-                </div>
-                <div class="title">
+                <div class="title-without-button">
+                    <div class="icon">
+                    </div>
+                    <div class="title">
+                    </div>
                 </div>
                 <div class="btn">
                     <div class="btn_l"></div>
@@ -75,21 +80,19 @@ class Window{
             winX = e.offsetX
         }
 
-        w.element.onmousedown = function(e){
+        w.element.onmousedown = (e) => {
             if(!Window.zIndex){
                 Window.zIndex = 1
             }
-            setTimeout(function(){Window.activeID = w.id}, 200)
-            // console.log(w.id)
+            setTimeout(() => {Window.activeID = w.id}, 200)
             w.element.style.zIndex = Window.zIndex++
-
             w.color()
 
             // ウィンドウの移動
-            document.body.onmouseup = function(e){
+            document.body.onmouseup = (e) => {
                 w.flag = false
             }
-            document.body.onmousemove = function(e){
+            document.body.onmousemove = (e) => {
                 if(w.flag){
                     w.element.style.top = `${e.pageY - winY}px`
                     w.element.style.left = `${e.pageX - winX}px`
@@ -98,27 +101,33 @@ class Window{
         }
 
         // ウィンドウを閉じる
-        w.element.getElementsByClassName("btn_r")[0].onmousedown = function(e){
+        w.element.getElementsByClassName("btn_r")[0].onmousedown = (e) => {
             w.close()
         }
 
-        w.element.getElementsByClassName("btn_m")[0].onmousedown = function(e){
+        // タイトルバーをダブルクリック
+        w.element.getElementsByClassName("title-without-button")[0].addEventListener("dblclick", (event) => {
+            const size_max = Array.from(w.element.classList).includes("size_max");
+            size_max ? w.restore() : w.max();
+            w.element.classList.add("temp-active-lock");
+        });
+
+        // ウィンドウを拡大
+        w.element.getElementsByClassName("btn_m")[0].onmousedown = (e) => {
             w.max()
+            w.element.classList.add("temp-active-lock");
         }
 
-        w.element.getElementsByClassName("btn_mr")[0].onmousedown = function(e){
+        // ウィンドウを元の大きさに戻す
+        w.element.getElementsByClassName("btn_mr")[0].onmousedown = (e) => {
             w.restore()
+            w.element.classList.add("temp-active-lock");
         }
 
-        if(!Window.Top){
-            Window.Top = 0
-        }
-        if(!Window.Left){
-            Window.Left = 0
-        }
+        if(!Window.Top) Window.Top = 0
+        if(!Window.Left) Window.Left = 0
         w.element.style.top = `${Window.Top += 16}px`
         w.element.style.left = `${Window.Left += 16}px`
-
         Window.list[Window.list.length] = w
 
         return w
@@ -159,7 +168,7 @@ Window.list = []
 Window.zIndex = 1
 
 // 窓外をクリックしたとき
-document.body.onclick = function(e){
+document.body.onclick = (e) => {
     let element = e.target
     while(element.localName != "body"){
         element = element.parentElement
@@ -167,7 +176,6 @@ document.body.onclick = function(e){
             break
         }
     }
-    // console.log(element)
     if(element.classList.contains("window")){
         Window.activeID = undefined
     }else{
