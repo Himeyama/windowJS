@@ -10,11 +10,14 @@ html
         height: 100%
         width: 100%
         margin: 0
+        background-image: url("background.webp")
+        background-size: 100% 100%
 
     .window
         border-radius: 8px
-        background-color: #F2F2F2
+        background-color: rgba(242, 242, 242, 0.9)
         border: solid 1px #B0B0B0
+        backdrop-filter: blur(8px)
         position: absolute
         box-shadow: rgba(26, 26, 26, 0.16) 0px 0px 16px 8px
         &.size_max
@@ -63,7 +66,7 @@ html
             display: grid
             grid-template-columns: 1fr auto
             border-radius: 8px 8px 0 0
-            height: 48px
+            height: 32px
             font-family: Meiryo UI
             font-size: 0
             border-bottom: solid 1px transparent
@@ -71,16 +74,21 @@ html
             .title-without-button
                 grid-column: 1 / 2
                 grid-row: 1 / 2
+                display: grid
+                grid-template-columns: 48px 1fr
                 .icon
-                    width: 44px
-                    height: 44px
                     display: inline-block
-                    margin: 2px
+                    background-image: url(icon.png)
+                    background-size: 100%
+                    height: 16px
+                    width: 16px
+                    margin: 8px 0 0 18px
                 .title
-                    line-height: 48px
+                    line-height: 32px
                     font-size: 12px
                     display: inline-block
                     vertical-align: top
+                    font-family: Yu Gothic UI
             .btn
                 grid-column: 2 / 3
                 grid-row: 1 / 2

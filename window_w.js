@@ -3,6 +3,13 @@ class Window{
     t
     element
     flag = false
+
+    static new(winId, title, content){
+        const win = Window.create(winId)
+        win.title = title
+        win.frame = content
+        return win
+    }
     
     color(){
         let w = this
@@ -45,25 +52,67 @@ class Window{
         win.id = id
         Window.activeID = win.id
         win.className = "window"
-        win.innerHTML 
-            = `<div class="title_zone">
-                <div class="title-without-button">
-                    <div class="icon">
-                    </div>
-                    <div class="title">
-                    </div>
-                </div>
-                <div class="btn">
-                    <div class="btn_l"></div>
-                    <div class="btn_mr"></div>
-                    <div class="btn_m"></div>
-                    <div class="btn_r"></div>
-                </div>
-            </div>
-            <div class="frame">
-                <section>
-                </section>
-            </div>`
+
+        const winInnerHTML = (win) => {
+            // タイトルゾーンの作成
+            const titleZone = document.createElement('div');
+            titleZone.className = 'title_zone';
+
+            // タイトル部分の作成
+            const titleWithoutButton = document.createElement('div');
+            titleWithoutButton.className = 'title-without-button';
+
+            const icon = document.createElement('div');
+            icon.className = 'icon';
+
+            const title = document.createElement('div');
+            title.className = 'title';
+
+            titleWithoutButton.appendChild(icon);
+            titleWithoutButton.appendChild(title);
+
+            // ボタン部分の作成
+            const btn = document.createElement('div');
+            btn.className = 'btn';
+
+            const btnL = document.createElement('div');
+            btnL.className = 'btn_l';
+            btnL.innerHTML = '';
+
+            const btnMR = document.createElement('div');
+            btnMR.className = 'btn_mr';
+            btnMR.innerHTML = '';
+
+            const btnM = document.createElement('div');
+            btnM.className = 'btn_m';
+            btnM.innerHTML = '';
+
+            const btnR = document.createElement('div');
+            btnR.className = 'btn_r';
+            btnR.innerHTML = '';
+
+            btn.appendChild(btnL);
+            btn.appendChild(btnMR);
+            btn.appendChild(btnM);
+            btn.appendChild(btnR);
+
+            // フレーム部分の作成
+            const frame = document.createElement('div');
+            frame.className = 'frame';
+
+            const section = document.createElement('section');
+
+            // 各要素を親要素に追加
+            titleZone.appendChild(titleWithoutButton);
+            titleZone.appendChild(btn);
+            frame.appendChild(section);
+
+            // 最終的なHTMLに追加
+            win.innerHTML = '';
+            win.appendChild(titleZone);
+            win.appendChild(frame);
+        }
+        winInnerHTML(win)
         w.id = id
         document.body.appendChild(win)
         w.element = document.getElementById(id)
